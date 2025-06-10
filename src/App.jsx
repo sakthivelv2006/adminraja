@@ -25,6 +25,22 @@ function App() {
       .catch(error => console.error('Error fetching users:', error));
   }, []);
 
+  // Handle Delete All Bookings
+const handleDeleteAllBookings = () => {
+  const confirmDelete = window.confirm('Are you sure you want to delete ALL bookings?');
+  if (confirmDelete) {
+    axios.delete('https://aluminium-ulwg.onrender.com/api/deleteall/bookings')
+      .then(() => {
+        alert('All bookings deleted successfully');
+        setBookings([]); // clear bookings list from state
+      })
+      .catch(error => {
+        console.error('Error deleting all bookings:', error);
+        alert('Error deleting all bookings');
+      });
+  }
+};
+
   // PDF: Bookings
   const downloadBookingsPDF = () => {
     const doc = new jsPDF();
@@ -105,6 +121,9 @@ function App() {
     }
   };
 
+  
+
+
   return (
     <div className="App" style={{ padding: '20px' }}>
       <h1>All Bookings</h1>
@@ -143,6 +162,11 @@ function App() {
       <button onClick={downloadBookingsPDF} style={buttonStyle}>
         Download All Booking Details (PDF)
       </button>
+<br></br>
+<br></br>
+      <button onClick={handleDeleteAllBookings} style={{ ...buttonStyle, backgroundColor: '#dc3545', marginLeft: '10px' }}>
+  Delete All Bookings be careful we cant replace the data and we dont have any copy
+</button>
 
       <hr style={{ margin: '40px 0' }} />
 
@@ -178,6 +202,8 @@ function App() {
       <button onClick={downloadUsersPDF} style={buttonStyle}>
         Download All User Details (PDF)
       </button>
+
+      
     </div>
   );
 }
